@@ -1,8 +1,9 @@
-import tkinter
+
 import os
 import csv
-from tkinter import *
-from tkinter import messagebox
+import sys
+from PyQt4.QtGui import *
+from PyQt4.QtCore import *
 
 
 def barcodeQuery():
@@ -28,11 +29,24 @@ def barcodeQuery():
         # converts set into string for message box output
         stringBarcodes = "\n".join(barcodes)
 
-    root = Tk()
+        def window():
+            app = QApplication(sys.argv)
+            # w = QWidget() do I need this??
 
-    tkinter.messagebox.showinfo(
-        "Missing Directories",
-        "The following directories are missing:\n" + stringBarcodes)
-    root.destroy()
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Information)
+            msg.setText(
+                "Directory is missing scanned chip information files.      ")
+            msg.setWindowTitle("Missing Information")
+            msg.setDetailedText(
+                "The missing files are as follows:\n" + stringBarcodes)
+            msg.setStandardButtons(QMessageBox.Ok)
+
+            msg.show()
+            sys.exit(app.exec_())
+
+        if barcodes is not None:
+            window()
+
 
 barcodeQuery()
