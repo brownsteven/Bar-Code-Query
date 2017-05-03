@@ -1,6 +1,5 @@
 
 import os
-import csv
 import sys
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -18,17 +17,15 @@ def barcodeQuery():
             if i < 7:
                 continue
             # reads csv file
-            readCSV = csv.reader(f, delimiter=",")
-            for row in readCSV:
-                # initializes barcode as element in column 4
-                barcode = row[3]
-                if barcode not in directories:
-                    # adds element in column 4 to set if not in directory
-                    barcodes.add(barcode)
+            for line in f:
+                barcode = line.split(",")
+                if barcode[3] not in directories:
+                    barcodes.add(barcode[3])
 
         # converts set into string for message box output
-        stringBarcodes = "\n".join(barcodes)
+        stringBarcodes = "\n".join(sorted(barcodes))
 
+        # creates Q
         def window():
             app = QApplication(sys.argv)
             # w = QWidget() do I need this??
@@ -36,7 +33,7 @@ def barcodeQuery():
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Information)
             msg.setText(
-                "Directory is missing scanned chip information files.      ")
+                "Directory is missing scanned chip information files.    ")
             msg.setWindowTitle("Missing Information")
             msg.setDetailedText(
                 "The missing files are as follows:\n" + stringBarcodes)
@@ -47,6 +44,7 @@ def barcodeQuery():
 
         if barcodes is not None:
             window()
-
-
+            with open("missing.txt", "w") as f:
+                f.write(stringBarcodes)
+                f.close()
 barcodeQuery()
