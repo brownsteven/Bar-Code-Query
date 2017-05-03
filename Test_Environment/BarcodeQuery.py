@@ -24,10 +24,10 @@ def barcodeQuery():
 
         # converts set into string for message box output & file output
         stringBarcodes = "\n".join(sorted(barcodes))
-        with open("Missing.csv", "a+") as f:
+        with open("Missing Data.csv", "w") as f:
             f.write(stringBarcodes)
 
-        # creates Q
+        # creates QMessageBox
         def window():
             app = QApplication(sys.argv)
             # w = QWidget() do I need this??
@@ -44,7 +44,8 @@ def barcodeQuery():
             msg.show()
             sys.exit(app.exec_())
 
-        if barcodes is not None:
+        # opens QMessageBox if set "barcodes" is populated
+        if barcodes:
             window()
 
 
