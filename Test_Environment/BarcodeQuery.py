@@ -22,8 +22,10 @@ def barcodeQuery():
                 if barcode[3] not in directories:
                     barcodes.add(barcode[3])
 
-        # converts set into string for message box output
+        # converts set into string for message box output & file output
         stringBarcodes = "\n".join(sorted(barcodes))
+        with open("Missing.csv", "a+") as f:
+            f.write(stringBarcodes)
 
         # creates Q
         def window():
@@ -44,7 +46,6 @@ def barcodeQuery():
 
         if barcodes is not None:
             window()
-            with open("missing.txt", "w") as f:
-                f.write(stringBarcodes)
-                f.close()
+
+
 barcodeQuery()
