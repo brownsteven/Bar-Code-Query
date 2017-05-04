@@ -14,13 +14,11 @@ def barcodeQuery():
         barcodes = set()
         # skips first 8 rows
         for i, line in enumerate(f):
-            if i < 7:
+            if i < 8:
                 continue
-            # reads csv file
-            for line in f:
-                barcode = line.split(",")
-                if barcode[3] not in directories:
-                    barcodes.add(barcode[3])
+            barcode = line.split(",")
+            if barcode[3] not in directories:
+                barcodes.add(barcode[3])
 
         # converts set into string for message box output & file output
         stringBarcodes = "\n".join(sorted(barcodes))
